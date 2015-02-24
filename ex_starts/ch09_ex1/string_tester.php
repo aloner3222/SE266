@@ -12,10 +12,15 @@
         <form action="." method="post">
         <input type="hidden" name="action" value="process_data"/>
 
-        <label>Name:</label>
-        <input type="text" name="name" 
-               value="<?php echo htmlspecialchars($name); ?>"/>
+        <label>First Name:</label>
+        <input type="text" name="Fname" 
+               value="<?php echo htmlspecialchars($Fname); ?>"/>
         <br />
+			
+		<label>Last Name:</label>
+        <input type="text" name="Lname" 
+               value="<?php echo htmlspecialchars($Lname); ?>"/>
+        <br />	
 
         <label>E-Mail:</label>
         <input type="text" name="email" 

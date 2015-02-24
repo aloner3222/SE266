@@ -1,4 +1,6 @@
 <?php
+
+
 if (isset($_POST['action'])) {
     $action =  $_POST['action'];
 } else {
@@ -7,38 +9,91 @@ if (isset($_POST['action'])) {
 
 switch ($action) {
     case 'start_app':
-        $message = 'Enter some data and click on the Submit button.';
+        $message = 'Enter your data and click on the Submit button.';
         break;
     case 'process_data':
-        $name = $_POST['name'];
+        $Fname = $_POST['Fname'];
+	    $Lname = $_POST['Lname'];
         $email = $_POST['email'];
         $phone = $_POST['phone'];
-
-        /*************************************************
-         * validate and process the name
-         ************************************************/
-        // 1. make sure the user enters a name
-        // 2. display the name with only the first letter capitalized
-
-        /*************************************************
-         * validate and process the email address
-         ************************************************/
-        // 1. make sure the user enters an email
-        // 2. make sure the email address has at least one @ sign and one dot character
-
-        /*************************************************
-         * validate and process the phone number
-         ************************************************/
-        // 1. make sure the user enters at least seven digits, not including formatting characters
-        // 2. format the phone number like this 123-4567 or this 123-456-7890
-
-        /*************************************************
-         * Display the validation message
-         ************************************************/
-        $message = "This page is under construction.\n" .
-                   "Please write the code that process the data.";
+	
+	// trim the spaces from the start and end of all data
+        $Fname = trim($Fname);
+	    $Lname = trim($Lname);
+        $email = trim($email);
+        $phone = trim($phone);
+	
+	
+    // make sure first name is filled in
+        if (empty($Fname)) {
+            $message = 'You must enter a first name.';
+            break;
+        }
+	// make capital letters
+        $Fname = strtolower($Fname);
+        $Fname = ucwords($Fname);
+	
+	// make sure first name is filled in
+        if (empty($Lname)) {
+            $message = 'You must enter a Last name.';
+            break;
+        }
+	// make capital letters
+        $Lname = strtolower($Lname);
+        $Lname = ucwords($Lname);
+	    $fullname = $Fname . ' ' . $Lname;
+	 // validate email
+        if (empty($email)) {
+            $message = ' Email address is required';
+            break;
+        } else if(strpos($email, '@') === false) {
+            $message = 'The email address must contain an @ sign.';
+            break;
+        } else if(strpos($email, '.') === false) {
+            $message = 'The email address must contain a dot character.';
+            break;
+        }
+	
+	// remove common formatting characters from the phone number
+        $phone = str_replace('-', '', $phone);
+        $phone = str_replace('(', '', $phone);
+        $phone = str_replace(')', '', $phone);
+        $phone = str_replace(' ', '', $phone);
+	
+	  // validate the phone number
+	   if (empty($phone)) {
+            $message = ' Telephone is required ';
+            break;
+          }else if(strlen($phone) < 7) {
+            $message = 'Telephone number must be at least seven digits.';
+            break;
+           }else if(strlen($phone) < 10) {
+           $message = 'Please include area code.';
+           break;
+	       }else if(strlen($phone) > 10) {
+           $message = 'Too many characters';
+           break;
+	
+	        // make sure phone number is 7 digits and combine strings
+       
+        } if (strlen($phone) == 10) {
+            $firstpart = substr($phone, 0, 3);
+            $secondpart = substr($phone, 3, 3);
+            $thirdpart = substr($phone, 6);
+            $phone =  '(' . $firstpart . ') ' . $secondpart . '-' . $thirdpart;
+        }
+	  
+	   
+        // output message
+        $message =
+            "Hello $Fname,\n\n" .
+            "Thank you for entering your data:\n\n" .
+            "Name: $fullname\n" .
+            "Email: $email\n" .
+            "Phone: $phone\n";
 
         break;
 }
 include 'string_tester.php';
+
 ?>

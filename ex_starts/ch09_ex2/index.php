@@ -7,10 +7,9 @@ if (isset($_POST['action'])) {
 
 switch ($action) {
     case 'start_app':
-        $number1 = 78;
-        $number2 = -105.33;
-        $number3 = 0.0049;
-
+        $number1 = '';
+        $number2 = '';
+        $number3 = '';
         $message = 'Enter some numbers and click on the Submit button.';
         break;
     case 'process_data':
@@ -19,17 +18,33 @@ switch ($action) {
         $number3 = $_POST['number3'];
 
         // make sure the user enters three numbers
-
+        if (empty($number1) ||
+            empty($number2) ||
+            empty($number3)) {
+                $message = 'You must enter all three numbers.';
+                break;
+        }
         // make sure the numbers are valid
-
+        if (!is_numeric($number1) ||
+            !is_numeric($number2) ||
+            !is_numeric($number3)) {
+                $message = 'You must enter three valid numbers.';
+                break;
+        }
         // get the ceiling and floor for $number2
-
+		 $number2_ceil = ceil($number2);
+         $number2_floor = floor($number2);
+	
         // round $number3 to 3 decimal places
-
+		 $number3_rounded = round($number3, 3);
+	
         // get the max and min values of all three numbers
-
+		 $max = max($number1, $number2, $number3);
+         $min = min($number1, $number2, $number3);
+	
         // generate a random integer between 1 and 100
-
+		 $random = mt_rand(1, 100);
+	
         // format the message
         $message =
             "Number 1: $number1\n" .
